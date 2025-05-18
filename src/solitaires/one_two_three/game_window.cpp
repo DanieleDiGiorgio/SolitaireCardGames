@@ -1,7 +1,7 @@
 #include "game_window.hpp"
 #include <iostream>
 
-GameWindow::GameWindow()
+OneTwoThreeWindow::OneTwoThreeWindow()
     : window(sf::VideoMode(800, 600), "Carte Napoletane"), currentIndex(0), call(1), cardsPlayed(0),gameState(GameState::WaitingToStart) {
     if (!font.loadFromFile("assets/fonts/Garuda.ttf")) {
         std::cerr << "Failed to load font" << std::endl;
@@ -39,7 +39,7 @@ GameWindow::GameWindow()
     resetGame();
 }
 
-void GameWindow::resetGame() {
+void OneTwoThreeWindow::resetGame() {
     deck = generateDeck();
     shuffleDeck(deck);
     currentIndex = 0;
@@ -56,7 +56,7 @@ void GameWindow::resetGame() {
     
 }
 
-void GameWindow::loadCardImage(const Card& card) {
+void OneTwoThreeWindow::loadCardImage(const Card& card) {
     std::string imagePath = "assets/cards/" + std::to_string(card.number) + "_" + card.suit + ".png";
     if (!cardTexture.loadFromFile(imagePath)) {
         std::cerr << "Failed to load image " << imagePath << std::endl;
@@ -79,7 +79,7 @@ void GameWindow::loadCardImage(const Card& card) {
 }
 
 
-void GameWindow::handleInput(sf::Event event) {
+void OneTwoThreeWindow::handleInput(sf::Event event) {
     if (event.type == sf::Event::Closed) {
         window.close();
 
@@ -179,7 +179,7 @@ void GameWindow::handleInput(sf::Event event) {
 
 
 
-void GameWindow::handleResize(unsigned int width, unsigned int height) {
+void OneTwoThreeWindow::handleResize(unsigned int width, unsigned int height) {
     float windowRatio = static_cast<float>(width) / height;
     float viewRatio = 800.f / 600.f;
 
@@ -199,7 +199,7 @@ void GameWindow::handleResize(unsigned int width, unsigned int height) {
     window.setView(view);
 }
 
-void GameWindow::draw() {
+void OneTwoThreeWindow::draw() {
     window.clear();
 
     window.draw(backgroundSprite);
@@ -216,7 +216,7 @@ void GameWindow::draw() {
     window.display();
 }
 
-void GameWindow::run() {
+void OneTwoThreeWindow::run() {
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {

@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "../game_logic.hpp"
+#include "../../game_logic.hpp"
 
 enum class GameState {
     WaitingToStart,
@@ -9,9 +9,9 @@ enum class GameState {
     Won
 };
 
-class GameWindow {
+class OneTwoThreeWindow {
 public:
-    GameWindow();
+    OneTwoThreeWindow();
 
     void run();
 

@@ -1,34 +1,43 @@
 cmake_minimum_required(VERSION 3.10)
-project(CarteNapoletane)
+project(SolitarioNapoletano)
 
 set(CMAKE_CXX_STANDARD 17)
 
-# Set source directories
-set(SRC_DIR "${CMAKE_SOURCE_DIR}/src")
-set(GUI_DIR "${SRC_DIR}/gui")
-
-# Add SFML
+# SFML dependency
 find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
 
-# Game logic source files
+# Base source dirs
+set(SRC_DIR "${CMAKE_SOURCE_DIR}/src")
+set(GUI_DIR "${SRC_DIR}/gui")
+set(MENU_DIR "${SRC_DIR}/menu")
+set(SOLITAIRE_DIR "${SRC_DIR}/solitaires")
+
+# Game logic shared
 set(GAME_LOGIC
     ${SRC_DIR}/game_logic.cpp
     ${SRC_DIR}/game_logic.hpp
 )
 
-# CLI executable
-add_executable(carte_cli
+# One-Two-Three solitaire GUI files
+set(ONE_TWO_THREE_GUI
+    ${SOLITAIRE_DIR}/one_two_three/game_window.cpp
+    ${SOLITAIRE_DIR}/one_two_three/game_window.hpp
+)
+
+# CLI executable (just for One-Two-Three)
+add_executable(solitaire_cli
     ${SRC_DIR}/main_cli.cpp
     ${GAME_LOGIC}
 )
 
-# GUI executable
-add_executable(carte_gui
+# GUI executable with menu and One-Two-Three game
+add_executable(solitaire_gui
     ${SRC_DIR}/main_gui.cpp
-    ${GUI_DIR}/game_window.cpp
-    ${GUI_DIR}/game_window.hpp
+    ${MENU_DIR}/menu.cpp
+    ${MENU_DIR}/menu.hpp
+    ${ONE_TWO_THREE_GUI}
     ${GAME_LOGIC}
 )
 
-# Link SFML to GUI only
-target_link_libraries(carte_gui sfml-graphics sfml-window sfml-system)
+# Link SFML only to GUI
+target_link_libraries(solitaire_gui sfml-graphics sfml-window sfml-system)
