@@ -1,0 +1,21 @@
+To build the project: 
+rm -rf build/; mkdir build; cmake -S . -B build/; cmake --build build/
+
+To run the gui:
+./build/carte_gui
+
+to run the cli: 
+./build/carte_cli
+
+
+###################################
+
+DEPENDENCIES
+
+GUI:
+sudo apt install libsfml-dev
+
+
+####################################
+
+
