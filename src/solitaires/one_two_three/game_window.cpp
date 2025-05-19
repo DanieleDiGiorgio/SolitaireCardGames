@@ -65,7 +65,7 @@ void OneTwoThreeWindow::loadCardImage(const Card& card) {
     // Maintain aspect ratio (scale by height)
     float targetHeight = 300.f;
     float scale = targetHeight / static_cast<float>(cardTexture.getSize().y);
-    std::cout << "scale = " << scale <<std::endl;
+    //std::cout << "scale = " << scale <<std::endl;
 
     cardSprite.setScale(scale, scale);
 
