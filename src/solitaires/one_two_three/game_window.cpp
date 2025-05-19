@@ -2,12 +2,12 @@
 #include <iostream>
 
 OneTwoThreeWindow::OneTwoThreeWindow()
-    : window(sf::VideoMode(800, 600), "Carte Napoletane"), currentIndex(0), call(1), cardsPlayed(0),gameState(GameState::WaitingToStart) {
+    : window(sf::VideoMode(900, 600), "Carte Napoletane"), currentIndex(0), call(1), cardsPlayed(0),gameState(GameState::WaitingToStart) {
     if (!font.loadFromFile("assets/fonts/Garuda.ttf")) {
         std::cerr << "Failed to load font" << std::endl;
     }
 
-    if (!backgroundTexture.loadFromFile("assets/backgrounds/wood_table_scale.png")) {
+    if (!backgroundTexture.loadFromFile("assets/backgrounds/wood_table_scale_32.png")) {
         std::cerr << "Failed to load background image" << std::endl;
     }
     backgroundSprite.setTexture(backgroundTexture);
@@ -19,7 +19,7 @@ OneTwoThreeWindow::OneTwoThreeWindow()
     // Center it 
     sf::FloatRect infoTextBounds = infoText.getLocalBounds();
     infoText.setPosition(
-        400.f - infoTextBounds.width / 2.f - infoTextBounds.left, // Centered X
+        450.f - infoTextBounds.width / 2.f - infoTextBounds.left, // Centered X
         100.f
     );
 
@@ -34,8 +34,7 @@ OneTwoThreeWindow::OneTwoThreeWindow()
     conteggioText.setFont(font);
     conteggioText.setCharacterSize(24);
     conteggioText.setFillColor(sf::Color::White);
-    conteggioText.setPosition(327.f, 600.f - 130.f); // In the center under the card
-
+    conteggioText.setPosition(377.f, 600.f - 130.f); // In the center under the card
     resetGame();
 }
 
@@ -49,10 +48,9 @@ void OneTwoThreeWindow::resetGame() {
     infoText.setString("Premi ENTER per pescare");
     sf::FloatRect infoTextBounds = infoText.getLocalBounds();
     infoText.setPosition(
-        400.f - infoTextBounds.width / 2.f - infoTextBounds.left, // Centered X
+        450.f - infoTextBounds.width / 2.f - infoTextBounds.left, // Centered X
         100.f
     );
-    
     
 }
 
@@ -67,13 +65,14 @@ void OneTwoThreeWindow::loadCardImage(const Card& card) {
     // Maintain aspect ratio (scale by height)
     float targetHeight = 300.f;
     float scale = targetHeight / static_cast<float>(cardTexture.getSize().y);
+    std::cout << "scale = " << scale <<std::endl;
 
     cardSprite.setScale(scale, scale);
 
 
     // Center card in logical 800x600 space
     sf::FloatRect bounds = cardSprite.getGlobalBounds();
-    float centerX = 400.f - bounds.width / 2.f;
+    float centerX = 450.f - bounds.width / 2.f;
     float centerY = 300.f - bounds.height / 2.f;
     cardSprite.setPosition(centerX, centerY);
 }
@@ -120,7 +119,7 @@ void OneTwoThreeWindow::handleInput(sf::Event event) {
                     rightBounds = digitSpriteRight.getLocalBounds();
 
                     // Position settings
-                    float baseX = 650.f; // center of counter
+                    float baseX = 700.f; // center of counter (650)
                     float baseY = 120.f;
 
                     // Horizontal spacing between digits
@@ -150,7 +149,7 @@ void OneTwoThreeWindow::handleInput(sf::Event event) {
                     // Center infoText
                     sf::FloatRect infoTextBounds = infoText.getLocalBounds();
                     infoText.setPosition(
-                        400.f - infoTextBounds.width / 2.f - infoTextBounds.left,
+                        450.f - infoTextBounds.width / 2.f - infoTextBounds.left,
                         100.f 
                     );
 
@@ -167,7 +166,7 @@ void OneTwoThreeWindow::handleInput(sf::Event event) {
                         // Center infoText
                         sf::FloatRect infoTextBounds = infoText.getLocalBounds();
                         infoText.setPosition(
-                            400.f - infoTextBounds.width / 2.f - infoTextBounds.left,
+                            450.f - infoTextBounds.width / 2.f - infoTextBounds.left,
                             100.f 
                         );
                     }
@@ -181,7 +180,7 @@ void OneTwoThreeWindow::handleInput(sf::Event event) {
 
 void OneTwoThreeWindow::handleResize(unsigned int width, unsigned int height) {
     float windowRatio = static_cast<float>(width) / height;
-    float viewRatio = 800.f / 600.f;
+    float viewRatio = 900.f / 600.f;
 
     sf::FloatRect viewport;
 
@@ -194,8 +193,8 @@ void OneTwoThreeWindow::handleResize(unsigned int width, unsigned int height) {
     }
 
     view.setViewport(viewport);
-    view.setSize(800.f, 600.f);
-    view.setCenter(400.f, 300.f);
+    view.setSize(900.f, 600.f);
+    view.setCenter(450.f, 300.f);
     window.setView(view);
 }
 

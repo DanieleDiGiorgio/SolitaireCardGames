@@ -24,6 +24,11 @@ set(ONE_TWO_THREE_GUI
     ${SOLITAIRE_DIR}/one_two_three/game_window.hpp
 )
 
+set(LACUNE_GUI 
+    ${SOLITAIRE_DIR}/lacune/lacune_window.cpp   
+    ${SOLITAIRE_DIR}/lacune/lacune_window.hpp 
+)
+
 # CLI executable (just for One-Two-Three)
 add_executable(solitaire_cli
     ${SRC_DIR}/main_cli.cpp
@@ -36,6 +41,7 @@ add_executable(solitaire_gui
     ${MENU_DIR}/menu.cpp
     ${MENU_DIR}/menu.hpp
     ${ONE_TWO_THREE_GUI}
+    ${LACUNE_GUI}
     ${GAME_LOGIC}
 )
 

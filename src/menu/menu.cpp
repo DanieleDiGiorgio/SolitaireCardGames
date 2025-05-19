@@ -6,7 +6,7 @@ Menu::Menu(sf::RenderWindow& win) : window(win), selectedIndex(0) {
         std::cerr << "Could not load font\n";
     }
 
-    if (!backgroundTexture.loadFromFile("assets/backgrounds/wood_table_scale.png")) {
+    if (!backgroundTexture.loadFromFile("assets/backgrounds/wood_table_scale_32.png")) {
         std::cerr << "Failed to load background image" << std::endl;
     }
     backgroundSprite.setTexture(backgroundTexture);
@@ -19,9 +19,9 @@ Menu::Menu(sf::RenderWindow& win) : window(win), selectedIndex(0) {
     float titleTargetHeight = 100.f;
     float titleScale = titleTargetHeight / static_cast<float>(titleTexture.getSize().y);
     titleSprite.setScale(titleScale, titleScale);
-    // Center title in logical 800x600 space
+    // Center title in logical 900x600 space
     sf::FloatRect titleBounds = titleSprite.getGlobalBounds();
-    float titleCenterX = 400.f - titleBounds.width / 2.f;
+    float titleCenterX = 450.f - titleBounds.width / 2.f;
     float titleCenterY = 150.f - titleBounds.height / 2.f;
     titleSprite.setPosition(titleCenterX, titleCenterY);
 
@@ -33,9 +33,9 @@ Menu::Menu(sf::RenderWindow& win) : window(win), selectedIndex(0) {
     float box_1_TargetHeight = 100.f;
     float box_1_scale = box_1_TargetHeight / static_cast<float>(boxTexture_1.getSize().y);
     boxSprite_1.setScale(box_1_scale, box_1_scale);
-    // Center box in logical 800x600 space
+    // Center box in logical 900x600 space
     sf::FloatRect box_1_bounds = boxSprite_1.getGlobalBounds();
-    float box_1_centerX = 400.f - box_1_bounds.width / 2.f;
+    float box_1_centerX = 450.f - box_1_bounds.width / 2.f;
     float box_1_centerY = 250.f - box_1_bounds.height / 2.f;
     boxSprite_1.setPosition(box_1_centerX, box_1_centerY);
 
@@ -47,15 +47,15 @@ Menu::Menu(sf::RenderWindow& win) : window(win), selectedIndex(0) {
     float box_2_TargetHeight = 100.f;
     float box_2_scale = box_2_TargetHeight / static_cast<float>(boxTexture_2.getSize().y);
     boxSprite_2.setScale(box_2_scale, box_2_scale);
-    // Center box in logical 800x600 space
+    // Center box in logical 900x600 space
     sf::FloatRect box_2_bounds = boxSprite_2.getGlobalBounds();
-    float box_2_centerX = 400.f - box_2_bounds.width / 2.f;
+    float box_2_centerX = 450.f - box_2_bounds.width / 2.f;
     float box_2_centerY = 350.f - box_2_bounds.height / 2.f;
     boxSprite_2.setPosition(box_2_centerX, box_2_centerY);
 
     options = {
         "1-2-3 Solitaire",
-        "new incoming"
+        "Lacune"
     };
 
     std::vector<sf::Sprite*> boxes = { &boxSprite_1, &boxSprite_2 };
@@ -79,15 +79,15 @@ Menu::Menu(sf::RenderWindow& win) : window(win), selectedIndex(0) {
     }
 
 
-    view.setSize(800.f, 600.f);
-    view.setCenter(400.f, 300.f);
+    view.setSize(900.f, 600.f);
+    view.setCenter(450.f, 300.f);
     window.setView(view);
 }
 
 
 void Menu::handleResize(unsigned int width, unsigned int height) {
     float windowRatio = static_cast<float>(width) / height;
-    float viewRatio = 800.f / 600.f;
+    float viewRatio = 900.f / 600.f;
 
     sf::FloatRect viewport;
 
@@ -100,8 +100,8 @@ void Menu::handleResize(unsigned int width, unsigned int height) {
     }
 
     view.setViewport(viewport);
-    view.setSize(800.f, 600.f);
-    view.setCenter(400.f, 300.f);
+    view.setSize(900.f, 600.f);
+    view.setCenter(450.f, 300.f);
     window.setView(view);
 }
 
@@ -111,7 +111,6 @@ std::string Menu::run() {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
-
             else if (event.type == sf::Event::MouseMoved){
                 sf::Vector2i pixelPos(event.mouseMove.x, event.mouseMove.y);
                 sf::FloatRect viewport = view.getViewport();
