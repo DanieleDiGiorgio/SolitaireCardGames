@@ -11,6 +11,7 @@ Menu::Menu(sf::RenderWindow& win) : window(win), selectedIndex(0) {
     }
     backgroundSprite.setTexture(backgroundTexture);
 
+    //Load and place title
     if (!titleTexture.loadFromFile("assets/titles/title_reduced.png")) {
         std::cerr << "Failed to load title image" << std::endl;
     }
@@ -25,34 +26,37 @@ Menu::Menu(sf::RenderWindow& win) : window(win), selectedIndex(0) {
     float titleCenterY = 150.f - titleBounds.height / 2.f;
     titleSprite.setPosition(titleCenterX, titleCenterY);
 
+    //Load and place first text box
     if (!boxTexture_1.loadFromFile("assets/boxes/menu_text_box.png")) {
         std::cerr << "Failed to load box image" << std::endl;
     }
     boxSprite_1.setTexture(boxTexture_1);
     // Maintain aspect ratio (scale by height)
-    float box_1_TargetHeight = 100.f;
+    float box_1_TargetHeight = 80.f;
     float box_1_scale = box_1_TargetHeight / static_cast<float>(boxTexture_1.getSize().y);
     boxSprite_1.setScale(box_1_scale, box_1_scale);
     // Center box in logical 900x600 space
     sf::FloatRect box_1_bounds = boxSprite_1.getGlobalBounds();
     float box_1_centerX = 450.f - box_1_bounds.width / 2.f;
-    float box_1_centerY = 250.f - box_1_bounds.height / 2.f;
+    float box_1_centerY = 280.f - box_1_bounds.height / 2.f;
     boxSprite_1.setPosition(box_1_centerX, box_1_centerY);
 
+    //Load and place first text box
     if (!boxTexture_2.loadFromFile("assets/boxes/menu_text_box.png")) {
         std::cerr << "Failed to load box image" << std::endl;
     }
     boxSprite_2.setTexture(boxTexture_2);
     // Maintain aspect ratio (scale by height)
-    float box_2_TargetHeight = 100.f;
+    float box_2_TargetHeight = 80.f;
     float box_2_scale = box_2_TargetHeight / static_cast<float>(boxTexture_2.getSize().y);
     boxSprite_2.setScale(box_2_scale, box_2_scale);
     // Center box in logical 900x600 space
     sf::FloatRect box_2_bounds = boxSprite_2.getGlobalBounds();
     float box_2_centerX = 450.f - box_2_bounds.width / 2.f;
-    float box_2_centerY = 350.f - box_2_bounds.height / 2.f;
+    float box_2_centerY = 360.f - box_2_bounds.height / 2.f;
     boxSprite_2.setPosition(box_2_centerX, box_2_centerY);
 
+    //set and place correct text in the boxes
     options = {
         "1-2-3 Solitaire",
         "Lacune"
@@ -61,7 +65,7 @@ Menu::Menu(sf::RenderWindow& win) : window(win), selectedIndex(0) {
     std::vector<sf::Sprite*> boxes = { &boxSprite_1, &boxSprite_2 };
 
     for (size_t i = 0; i < options.size(); ++i) {
-        sf::Text text(options[i], font, 30);
+        sf::Text text(options[i], font, 24);
         
         // Center the text in the corresponding box
         sf::FloatRect textBounds = text.getLocalBounds();

@@ -7,7 +7,7 @@ class LacuneWindow {
 public:
     LacuneWindow();
 
-    void run();
+    bool run();
 
 private:
     sf::RenderWindow window;
@@ -29,6 +29,12 @@ private:
     std::vector<sf::Sprite> symbolSprites;    // One sprite per symbol
 
     sf::RectangleShape placeholderShadow;
+
+    bool goBackToMenu = false;
+
+    sf::Texture backButtonTexture;
+    sf::Sprite backButtonSprite;
+
 
     void handleInput(sf::Event event);
     void handleResize(unsigned int width, unsigned int height);

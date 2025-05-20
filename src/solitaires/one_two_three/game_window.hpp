@@ -13,7 +13,7 @@ class OneTwoThreeWindow {
 public:
     OneTwoThreeWindow();
 
-    void run();
+    bool run();
 
 private:
     sf::RenderWindow window;
@@ -42,6 +42,11 @@ private:
     sf::Sprite digitSpriteLeft;
     sf::Sprite digitSpriteRight;
     std::vector<sf::Texture> digitTextures; // For 0–9
+
+    sf::Texture backButtonTexture;
+    sf::Sprite backButtonSprite;
+
+    bool goBackToMenu = false;
 
     void loadCardImage(const Card& card);
     void draw();

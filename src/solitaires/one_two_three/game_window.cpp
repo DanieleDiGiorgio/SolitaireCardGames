@@ -31,6 +31,19 @@ OneTwoThreeWindow::OneTwoThreeWindow()
         }
     }
 
+    if (!backButtonTexture.loadFromFile("assets/symbols/back_button.png")) {
+        std::cerr << "Failed to load back button image\n";
+    }
+    backButtonSprite.setTexture(backButtonTexture);
+    // Optional: scale it down if needed
+    float backButtonTargetHeight = 50.f; // logical units
+    float backButtonScale = backButtonTargetHeight / backButtonTexture.getSize().y;
+    backButtonSprite.setScale(backButtonScale, backButtonScale);
+    // Position it in the bottom-left corner of the logical 900x600 view
+    sf::FloatRect backButtonBounds = backButtonSprite.getGlobalBounds();
+    //backButtonSprite.setPosition(10.f, 600.f - backButtonBounds.height - 10.f);
+    backButtonSprite.setPosition(1.f,10.f);
+
     conteggioText.setFont(font);
     conteggioText.setCharacterSize(24);
     conteggioText.setFillColor(sf::Color::White);
@@ -173,6 +186,26 @@ void OneTwoThreeWindow::handleInput(sf::Event event) {
                 }
             }
         }
+    } else if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
+        sf::Vector2i rawMousePos(event.mouseButton.x, event.mouseButton.y);
+        sf::FloatRect vp = view.getViewport();
+
+        float vpLeftPx = vp.left * window.getSize().x;
+        float vpTopPx = vp.top * window.getSize().y;
+        float vpWidthPx = vp.width * window.getSize().x;
+        float vpHeightPx = vp.height * window.getSize().y;
+
+        if (rawMousePos.x >= vpLeftPx && rawMousePos.x <= vpLeftPx + vpWidthPx &&
+            rawMousePos.y >= vpTopPx && rawMousePos.y <= vpTopPx + vpHeightPx) {
+            
+            float logicalX = (rawMousePos.x - vpLeftPx) * (900.f / vpWidthPx);
+            float logicalY = (rawMousePos.y - vpTopPx) * (600.f / vpHeightPx);
+
+            if (backButtonSprite.getGlobalBounds().contains(sf::Vector2f(logicalX, logicalY))) {
+                goBackToMenu = true;
+                window.close();  // Return to menu
+            }
+        }
     }
 }
 
@@ -210,12 +243,12 @@ void OneTwoThreeWindow::draw() {
         window.draw(digitSpriteRight);
         window.draw(conteggioText);
     }
-    
+    window.draw(backButtonSprite);
     window.draw(infoText);
     window.display();
 }
 
-void OneTwoThreeWindow::run() {
+bool OneTwoThreeWindow::run() {
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -223,4 +256,5 @@ void OneTwoThreeWindow::run() {
         }
         draw();
     }
+    return goBackToMenu;
 }

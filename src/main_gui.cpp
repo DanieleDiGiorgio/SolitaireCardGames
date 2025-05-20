@@ -4,17 +4,21 @@
 #include "solitaires/lacune/lacune_window.hpp"
 
 int main() {
-    sf::RenderWindow menuWindow(sf::VideoMode(900, 600), "Menu");
-    Menu menu(menuWindow);
-    std::string selectedGame = menu.run();
+    while (true) {
+        sf::RenderWindow menuWindow(sf::VideoMode(900, 600), "Menu");
+        Menu menu(menuWindow);
+        std::string selectedGame = menu.run();
 
-    if (selectedGame == "1-2-3 Solitaire") {
-        OneTwoThreeWindow game;
-        game.run();
-    } else if( selectedGame == "Lacune") {
-        LacuneWindow lacuneGame;
-        lacuneGame.run();
+        if (selectedGame == "1-2-3 Solitaire") {
+            OneTwoThreeWindow game;
+            if (!game.run()) break; 
+        } else if( selectedGame == "Lacune") {
+            LacuneWindow lacuneGame;
+            if (!lacuneGame.run()) break;
+        }
+        else {
+            break;
+        }
     }
-
     return 0;
 }

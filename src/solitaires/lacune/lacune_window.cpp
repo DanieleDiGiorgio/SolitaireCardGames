@@ -8,9 +8,6 @@ LacuneWindow::LacuneWindow() : window(sf::VideoMode(900, 600), "Lacune") {
     }
     backgroundSprite.setTexture(backgroundTexture);
 
-    // Initialize the game state
-    resetGame();
-
     symbolTextures.resize(4);
     symbolSprites.resize(4);
     
@@ -22,7 +19,7 @@ LacuneWindow::LacuneWindow() : window(sf::VideoMode(900, 600), "Lacune") {
     std::vector<std::string> suits = {"ori", "coppe", "spade", "bastoni"};
 
     for (size_t i = 0;i<4; ++i) {
-        std::string imagePath = "assets/symbols/" + suits[i]+ "_symbol.png";
+        std::string imagePath = "assets/symbols/" + suits[i]+ "_color.png";
         if (!symbolTextures[i].loadFromFile(imagePath)) {
             std::cerr << "Failed to load " << imagePath << std::endl;
             continue;
@@ -41,8 +38,31 @@ LacuneWindow::LacuneWindow() : window(sf::VideoMode(900, 600), "Lacune") {
         float posX = symbStartX + col * (scaledWidth + symbMargin);
         float posY = symbStartY + row * (symbTargetHeight + symbMargin);
 
-        symbolSprites[i].setPosition(posX, posY);
+        if(i==0){
+            symbolSprites[i].setPosition(posX-3.f, posY);
+        }else if(i==2){
+            symbolSprites[i].setPosition(posX+2.f, posY);
+        }else{
+            symbolSprites[i].setPosition(posX, posY);
+        }
+        
     }
+
+    if (!backButtonTexture.loadFromFile("assets/symbols/back_button.png")) {
+        std::cerr << "Failed to load back button image\n";
+    }
+    backButtonSprite.setTexture(backButtonTexture);
+    // Optional: scale it down if needed
+    float backButtonTargetHeight = 50.f; // logical units
+    float backButtonScale = backButtonTargetHeight / backButtonTexture.getSize().y;
+    backButtonSprite.setScale(backButtonScale, backButtonScale);
+    // Position it in the bottom-left corner of the logical 900x600 view
+    sf::FloatRect backButtonBounds = backButtonSprite.getGlobalBounds();
+    backButtonSprite.setPosition(1.f, 10.f);
+
+    // Initialize the game state
+    resetGame();
+
 }
 
 
@@ -118,6 +138,26 @@ void LacuneWindow::handleInput(sf::Event event) {
         handleResize(event.size.width, event.size.height);
     } else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::R){
         resetGame();
+    } else if (event.type == sf::Event::MouseButtonReleased && event.mouseButton.button == sf::Mouse::Left) {
+        sf::Vector2i rawMousePos(event.mouseButton.x, event.mouseButton.y);
+        sf::FloatRect vp = view.getViewport();
+
+        float vpLeftPx = vp.left * window.getSize().x;
+        float vpTopPx = vp.top * window.getSize().y;
+        float vpWidthPx = vp.width * window.getSize().x;
+        float vpHeightPx = vp.height * window.getSize().y;
+
+        if (rawMousePos.x >= vpLeftPx && rawMousePos.x <= vpLeftPx + vpWidthPx &&
+            rawMousePos.y >= vpTopPx && rawMousePos.y <= vpTopPx + vpHeightPx) {
+            
+            float logicalX = (rawMousePos.x - vpLeftPx) * (900.f / vpWidthPx);
+            float logicalY = (rawMousePos.y - vpTopPx) * (600.f / vpHeightPx);
+
+            if (backButtonSprite.getGlobalBounds().contains(sf::Vector2f(logicalX, logicalY))) {
+                goBackToMenu = true;
+                window.close();  // Return to menu
+            }
+        }
     }
 }
 
@@ -152,16 +192,18 @@ void LacuneWindow::draw(){
     for (const auto& sprite : cardSprites) {
         window.draw(sprite);
     }
+    window.draw(backButtonSprite);
     window.draw(backCardSprite);
     window.display();
 }
 
-void LacuneWindow::run() {
-  while (window.isOpen()) {
+bool LacuneWindow::run() {
+    while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
             handleInput(event);
         }
         draw();
     }
+    return goBackToMenu;
 }
