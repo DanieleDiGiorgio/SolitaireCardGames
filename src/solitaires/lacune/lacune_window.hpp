@@ -2,6 +2,12 @@
 #include <SFML/Graphics.hpp>
 #include "../../game_logic.hpp"
 
+enum class GamePhase {
+    WaitingForRoundStart,  // waiting to flip next card from round deck
+    Playing,               // currently resolving a round
+    GameWon,
+    GameLost
+};
 
 class LacuneWindow {
 public:
@@ -15,9 +21,6 @@ private:
 
     sf::Texture backgroundTexture;
     sf::Sprite backgroundSprite;
-
-    std::vector<sf::Texture> cardTextures;  // One texture per card
-    std::vector<sf::Sprite> cardSprites;    // One sprite per card
 
     sf::Texture backCardTexture;
     sf::Sprite backCardSprite;
@@ -35,10 +38,30 @@ private:
     sf::Texture backButtonTexture;
     sf::Sprite backButtonSprite;
 
+    GamePhase currentPhase;
+
+    int currentRoundIndex; 
+    Card currentCard; 
+    bool hasCurrentCard; 
+    std::vector<Card> roundDeck; 
+    std::vector<Card> boardCards; 
+    std::vector<std::vector<Card>> boardState; 
+
+    std::vector<Card> kingsFound;
+
+    std::vector<std::vector<bool>> revealedCards;
+
+    sf::Texture currentCardTexture;
+    sf::Sprite currentCardSprite;
+
+    std::map<std::string, sf::Texture> cardTextureCache;
 
     void handleInput(sf::Event event);
     void handleResize(unsigned int width, unsigned int height);
     void draw();
     //void loadCardImage(const Card& card);
     void resetGame();
+    int getSuitIndex(const std::string& suit);
+    void flipNextRoundCard();
+    sf::Texture& getCardTexture(const std::string& imagePath);
 };
