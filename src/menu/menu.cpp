@@ -2,6 +2,7 @@
 #include <iostream>
 
 Menu::Menu(sf::RenderWindow& win) : window(win), selectedIndex(0) {
+    window.setFramerateLimit(30);
     if (!font.loadFromFile("assets/fonts/Garuda.ttf")) {
         std::cerr << "Could not load font\n";
     }
@@ -58,7 +59,7 @@ Menu::Menu(sf::RenderWindow& win) : window(win), selectedIndex(0) {
 
     //set and place correct text in the boxes
     options = {
-        "1-2-3 Solitaire",
+        "1-2-3",
         "Lacune"
     };
 
@@ -178,9 +179,7 @@ std::string Menu::run() {
 
 void Menu::draw() {
     window.clear();
-
     window.draw(backgroundSprite);
-
     window.draw(titleSprite);
     window.draw(boxSprite_1);
     window.draw(boxSprite_2);

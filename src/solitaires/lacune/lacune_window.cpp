@@ -2,6 +2,7 @@
 #include <iostream>
 
 LacuneWindow::LacuneWindow() : window(sf::VideoMode(900, 600), "Lacune"), currentRoundIndex(-1), hasCurrentCard(false) {
+    window.setFramerateLimit(30);
     // Initialize any assets, cards, or layout here
     if (!backgroundTexture.loadFromFile("assets/backgrounds/green_felt_background_scale.png")) {
         std::cerr << "Failed to load background image" << std::endl;

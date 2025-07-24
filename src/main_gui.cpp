@@ -9,7 +9,7 @@ int main() {
         Menu menu(menuWindow);
         std::string selectedGame = menu.run();
 
-        if (selectedGame == "1-2-3 Solitaire") {
+        if (selectedGame == "1-2-3") {
             OneTwoThreeWindow game;
             if (!game.run()) break; 
         } else if( selectedGame == "Lacune") {

@@ -3,6 +3,7 @@
 
 OneTwoThreeWindow::OneTwoThreeWindow()
     : window(sf::VideoMode(900, 600), "Carte Napoletane"), currentIndex(0), call(1), cardsPlayed(0),gameState(GameState::WaitingToStart) {
+    window.setFramerateLimit(30);
     if (!font.loadFromFile("assets/fonts/Garuda.ttf")) {
         std::cerr << "Failed to load font" << std::endl;
     }
